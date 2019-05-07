@@ -1,0 +1,13 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: while_true_do.srv_cockpit
+      wtd_srv_cockpit_role: "all"
+      wtd_srv_cockpit_ws_clients:
+        - name: "host1"
+          address: "host1.example.com"
+        - name: "host2"
+          address: "host2.example.com"
+        - name: "host3"
+          address: "host3.example.com"

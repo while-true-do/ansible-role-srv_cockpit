@@ -1,0 +1,13 @@
+---
+# handlers file for while_true_do.srv_cockpit
+
+- name: Restart Cockpit Web
+  service:
+    name: "{{ wtd_srv_cockpit_ws_service }}"
+    state: "restarted"
+  become: true
+  tags:
+    - cockpit
+    - service
+    - web
+    - system

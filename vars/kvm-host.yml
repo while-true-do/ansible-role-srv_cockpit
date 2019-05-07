@@ -1,0 +1,11 @@
+---
+# vars file for while_true_do.srv_cockpit
+
+wtd_srv_cockpit_sys_package_state: "present"
+wtd_srv_cockpit_pcp_package_state: "present"
+# wtd_srv_cockpit_docker_package_state: ""
+wtd_srv_cockpit_machine_package_state: "present"
+wtd_srv_cockpit_kdump_package_state: "present"
+wtd_srv_cockpit_selinux_package_state: "present"
+# wtd_srv_cockpit_ws_package_state: ""
+# wtd_srv_cockpit_k8s_package_state: ""

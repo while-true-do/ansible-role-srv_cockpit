@@ -1,0 +1,18 @@
+{{ '{' }}
+{% for host in wtd_srv_cockpit_ws_clients %}
+    "{{ host.name }}" : {{ '{' }}
+        "visible" : "true",
+        {% if host.color is defined %}
+        "color" : "{{ host.color }}",
+        {% endif %}
+        {% if host.port is defined %}
+        "port" : "{{ host.port }}",
+        {% endif %}
+        "address" : "{{ host.address }}"
+    {% if loop.last %}
+    {{ '}' }}
+    {% else %}
+    {{ '},' }}
+    {% endif %}
+{% endfor %}
+{{ '}' }}

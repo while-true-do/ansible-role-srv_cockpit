@@ -1,0 +1,95 @@
+---
+# tasks file for while_true_do.srv_cockpit
+
+- name: Include distribution Vars
+  include_vars: "{{ ansible_distribution }}.yml"
+
+- name: Include cockpit_role Vars
+  include_vars: "{{ wtd_srv_cockpit_role }}.yml"
+  when: wtd_srv_cockpit_role != "unmanaged"
+
+- name: Manage Cockpit sys Packages
+  package:
+    name: "{{ wtd_srv_cockpit_sys_package }}"
+    state: "{{ wtd_srv_cockpit_sys_package_state }}"
+  become: true
+  tags:
+    - cockpit
+    - monitoring
+    - package
+    - system
+
+- name: Manage Cockpit pcp Packages
+  package:
+    name: "{{ wtd_srv_cockpit_pcp_package }}"
+    state: "{{ wtd_srv_cockpit_pcp_package_state }}"
+  become: true
+  when: wtd_srv_cockpit_pcp_package_state != ""
+  tags:
+    - cockpit
+    - monitoring
+    - package
+    - pcp
+    - system
+
+- name: Manage Cockpit docker Packages
+  package:
+    name: "{{ wtd_srv_cockpit_docker_package }}"
+    state: "{{ wtd_srv_cockpit_docker_package_state }}"
+  become: true
+  when: wtd_srv_cockpit_docker_package_state != ""
+  tags:
+    - cockpit
+    - container
+    - monitoring
+    - package
+    - system
+
+- name: Manage Cockpit machine Packages
+  package:
+    name: "{{ wtd_srv_cockpit_machine_package }}"
+    state: "{{ wtd_srv_cockpit_machine_package_state }}"
+  become: true
+  when: wtd_srv_cockpit_machine_package_state != ""
+  tags:
+    - cockpit
+    - monitoring
+    - package
+    - system
+    - virtualization
+
+- name: Manage Cockpit kdump Packages
+  package:
+    name: "{{ wtd_srv_cockpit_kdump_package }}"
+    state: "{{ wtd_srv_cockpit_kdump_package_state }}"
+  become: true
+  when: wtd_srv_cockpit_kdump_package_state != ""
+  tags:
+    - cockpit
+    - kdump
+    - package
+    - system
+
+- name: Manage Cockpit selinux Packages
+  package:
+    name: "{{ wtd_srv_cockpit_selinux_package }}"
+    state: "{{ wtd_srv_cockpit_selinux_package_state }}"
+  become: true
+  when: wtd_srv_cockpit_selinux_package_state != ""
+  tags:
+    - cockpit
+    - monitoring
+    - package
+    - security
+    - selinux
+    - system
+
+- name: Include Cockpit Web Tasks
+  include_tasks: cockpit-ws.yml
+  when: wtd_srv_cockpit_ws_package_state != ""
+
+- name: Include Cockpit k8s Tasks
+  include_tasks: cockpit-k8s.yml
+  when:
+    - wtd_srv_cockpit_k8s_package_state != ""
+    - wtd_srv_cockpit_ws_package_state != ""

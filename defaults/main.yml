@@ -1,0 +1,107 @@
+---
+# defaults file for while_true_do.srv_cockpit
+
+# Some roles are predefined for convenience.
+# Role can be:
+# default-host  =>  sys, pcp, kdump, selinux
+# kvm-host      =>  default-host + machine management
+# docker-host   =>  default-host + docker management
+# control-host  =>  default-host + webserver
+# k8s-host      =>  control-host + cockpit-kubernetes
+# all           =>  all packages present
+# none          =>  all packages absent
+# unmanaged     =>  you have to define each state
+wtd_srv_cockpit_role: "default-host"
+
+# Cockpit System Packages
+# Packages needed by most systems
+# You should consider to look at while_true_do.sys_tuned
+wtd_srv_cockpit_sys_package:
+  - cockpit-system
+  - cockpit-bridge
+  - cockpit-packagekit
+  - cockpit-sosreport
+  - cockpit-storaged
+  - cockpit-networkmanager
+# State can be present|latest|absent
+wtd_srv_cockpit_sys_package_state: ""
+
+# Cockpit PCP Integration
+# You should consider to look at while_true_do.sys_pcp
+wtd_srv_cockpit_pcp_package:
+  - cockpit-pcp
+# State can be present|latest|absent
+wtd_srv_cockpit_pcp_package_state: ""
+
+# Cockpit Docker Integration
+# You should consider to look at while_true_do.srv_docker
+wtd_srv_cockpit_docker_package:
+  - cockpit-docker
+# State can be present|latest|absent
+wtd_srv_cockpit_docker_package_state: ""
+
+# Cockpit KVM Integration
+# You should consider to look at while_true_do.srv_kvm
+wtd_srv_cockpit_machine_package:
+  - cockpit-machines
+# State can be present|latest|absent
+wtd_srv_cockpit_machine_package_state: ""
+
+# Cockpit Kdump Integration
+# You should consider to look at while_true_do.sys_kdump
+wtd_srv_cockpit_kdump_package:
+  - cockpit-kdump
+# State can be present|latest|absent
+wtd_srv_cockpit_kdump_package_state: ""
+
+# Cockpit selinux Integration
+# You should consider to look at while_true_do.sys_selinux
+wtd_srv_cockpit_selinux_package:
+  - cockpit-selinux
+# State can be present|latest|absent
+wtd_srv_cockpit_selinux_package_state: ""
+
+# Cockpit Kubernetes Integration
+wtd_srv_cockpit_k8s_package:
+  - cockpit-kubernetes
+# State can be present|latest|absent
+wtd_srv_cockpit_k8s_package_state: ""
+
+# Cockpit Webserver
+# The webserver, if you need it. Most likely on control/admin hosts only
+wtd_srv_cockpit_ws_package:
+  - cockpit-ws
+  - cockpit-dashboard
+# State can be present|latest|absent
+wtd_srv_cockpit_ws_package_state: ""
+
+wtd_srv_cockpit_ws_service: "cockpit.socket"
+# State can be started|stopped
+wtd_srv_cockpit_ws_service_state: "started"
+wtd_srv_cockpit_ws_service_enabled: true
+
+# Firewalld Management
+wtd_srv_cockpit_ws_firewall_service: "cockpit"
+# State can be enabled|disabled
+wtd_srv_cockpit_ws_firewall_service_state: "enabled"
+# Define a zone, to be used
+wtd_srv_cockpit_ws_firewall_service_zone: "public"
+
+# See here: http://cockpit-project.org/guide/latest/cockpit.conf.5.html
+wtd_srv_cockpit_ws_conf_Origins: ""
+wtd_srv_cockpit_ws_conf_ProtocolHeader: ""
+wtd_srv_cockpit_ws_conf_LoginTo: ""
+wtd_srv_cockpit_ws_conf_LoginTitle: ""
+wtd_srv_cockpit_ws_conf_RequireHost: ""
+wtd_srv_cockpit_ws_conf_MaxStartups: "3"
+wtd_srv_cockpit_ws_conf_AllowUnencrypted: ""
+wtd_srv_cockpit_ws_conf_UrlRoot: ""
+
+# See here: http://cockpit-project.org/guide/latest/cockpit-ws.8.html
+wtd_srv_cockpit_ws_conf_cert: ""
+
+wtd_srv_cockpit_ws_clients:
+# - name: "someName"
+#   color: "rgb(0, 0, 255)" # default random color
+#   port: "22" # default to 22
+#   address: "host1.example.com"

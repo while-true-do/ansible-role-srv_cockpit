@@ -1,0 +1,87 @@
+---
+# tasks file for while_true_do.srv_cockpit
+
+- name: Gather package facts
+  package_facts:
+    manager: auto
+  tags:
+    - cockpit
+    - facts
+    - package
+
+- name: Manage Cockpit Web Packages
+  package:
+    name: "{{ wtd_srv_cockpit_ws_package }}"
+    state: "{{ wtd_srv_cockpit_ws_package_state }}"
+  become: true
+  tags:
+    - cockpit
+    - package
+    - system
+    - web
+
+- name: Manage Cockpit Web Service
+  service:
+    name: "{{ wtd_srv_cockpit_ws_service }}"
+    state: "{{ wtd_srv_cockpit_ws_service_state }}"
+    enabled: "{{ wtd_srv_cockpit_ws_service_enabled }}"
+  become: true
+  when: wtd_srv_cockpit_ws_package_state != "absent"
+  tags:
+    - cockpit
+    - service
+    - system
+    - web
+
+- name: Configure Cockpit Web
+  template:
+    src: "cockpit.conf.j2"
+    dest: "/etc/cockpit/cockpit.conf"
+    owner: "root"
+    group: "root"
+    mode: 0644
+  become: true
+  when: wtd_srv_cockpit_ws_package_state != "absent"
+  notify:
+    - Restart Cockpit Web
+  tags:
+    - cockpit
+    - configuration
+    - system
+    - web
+
+- name: Configure Cockpit Web Clients
+  template:
+    src: "99-webui.json.j2"
+    dest: "/etc/cockpit/machines.d/99-webui.json"
+    owner: "root"
+    group: "root"
+    mode: 0644
+    lstrip_blocks: true
+  become: true
+  when:
+    - wtd_srv_cockpit_ws_package_state != "absent"
+    - wtd_srv_cockpit_ws_clients != ""
+  notify:
+    - Restart Cockpit Web
+  tags:
+    - cockpit
+    - configuration
+    - system
+    - web
+
+- name: Manage cockpit Firewalld Service
+  firewalld:
+    service: "{{ wtd_srv_cockpit_ws_firewall_service }}"
+    state: "{{ wtd_srv_cockpit_ws_firewall_service_state }}"
+    immediate: true
+    permanent: true
+    zone: "{{ wtd_srv_cockpit_ws_firewall_service_zone }}"
+  become: true
+  when:
+    - '"firewalld" in packages'
+  tags:
+    - cockpit
+    - configuration
+    - firewall
+    - security

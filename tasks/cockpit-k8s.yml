@@ -1,0 +1,16 @@
+---
+# tasks file for while_true_do.srv_cockpit
+
+- name: Manage Kubernetes Packages
+  package:
+    name: "{{ wtd_srv_cockpit_k8s_package }}"
+    state: "{{ wtd_srv_cockpit_k8s_package_state }}"
+  become: true
+  when: wtd_srv_cockpit_k8s_package_state != ""
+  tags:
+    - cockpit
+    - container
+    - monitoring
+    - package
+    - system
+    - web

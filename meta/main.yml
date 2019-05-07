@@ -1,0 +1,38 @@
+---
+# meta file for while_true_do.srv_cockpit
+galaxy_info:
+  role_name: srv_cockpit
+  author: while-true-do.io
+  description: An Ansible role to install and configure Cockpit.
+  license: BSD
+
+  min_ansible_version: 2.7
+
+  # Supported platforms: https://galaxy.ansible.com/api/v1/platforms/
+  # Please also maintain
+  # - molecule/default/molecule.yml
+  # - molecule/default/tests/test_default.py
+  platforms:
+    - name: EL
+      versions:
+        - 7
+
+    - name: Fedora
+      versions:
+        - 29
+
+  galaxy_tags:
+    - cockpit
+    - container
+    - kdump
+    - monitoring
+    - package
+    - pcp
+    - security
+    - selinux
+    - service
+    - system
+    - virtualization
+    - web
+
+dependencies: []
