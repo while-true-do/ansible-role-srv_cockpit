@@ -31,6 +31,7 @@ platforms:
     tmpfs:
       - /run
       - /tmp
+    privileged: true
     environment:
       container: docker
 
@@ -42,6 +43,7 @@ platforms:
     tmpfs:
       - /run
       - /tmp
+    privileged: true
     environment:
       container: docker
 
@@ -53,6 +55,7 @@ platforms:
     tmpfs:
       - /run
       - /tmp
+    privileged: true
     environment:
       container: docker
 
