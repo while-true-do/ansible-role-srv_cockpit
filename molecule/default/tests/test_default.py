@@ -14,7 +14,6 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     ("cockpit-machines"),
     ("cockpit-ws"),
     ("cockpit-dashboard"),
-    ("cockpit-kubernetes"),
 ])
 def test_pkg(host, name):
     pkg = host.package(name)

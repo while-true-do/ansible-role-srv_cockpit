@@ -95,7 +95,6 @@ ansible-galaxy install -r requirements.yml
 # kvm-host      =>  default-host + machine management
 # docker-host   =>  default-host + docker management
 # control-host  =>  default-host + webserver
-# k8s-host      =>  control-host + cockpit-kubernetes
 # all           =>  all packages present
 # none          =>  all packages absent
 # unmanaged     =>  you have to define each state
@@ -148,12 +147,6 @@ wtd_srv_cockpit_selinux_package:
   - cockpit-selinux
 # State can be present|latest|absent
 wtd_srv_cockpit_selinux_package_state: ""
-
-# Cockpit Kubernetes Integration
-wtd_srv_cockpit_k8s_package:
-  - cockpit-kubernetes
-# State can be present|latest|absent
-wtd_srv_cockpit_k8s_package_state: ""
 
 # Cockpit Webserver
 # The webserver, if you need it. Most likely on control/admin hosts only

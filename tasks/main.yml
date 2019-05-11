@@ -87,9 +87,7 @@
 - name: Include Cockpit Web Tasks
   include_tasks: cockpit-ws.yml
   when: wtd_srv_cockpit_ws_package_state != ""
-
-- name: Include Cockpit k8s Tasks
-  include_tasks: cockpit-k8s.yml
-  when:
-    - wtd_srv_cockpit_k8s_package_state != ""
-    - wtd_srv_cockpit_ws_package_state != ""
+  tags:
+    - cokpit
+    - web
+    - system
