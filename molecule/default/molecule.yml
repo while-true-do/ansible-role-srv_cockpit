@@ -37,6 +37,7 @@ platforms:
     tmpfs:
       - /run
       - /tmp
+    privileged: true
     restart_policy: unless-stopped
     groups:
       - python3
@@ -51,6 +52,7 @@ platforms:
     tmpfs:
       - /run
       - /tmp
+    privileged: true
     restart_policy: unless-stopped
     groups:
       - python3
@@ -65,6 +67,7 @@ platforms:
     tmpfs:
       - /run
       - /tmp
+    privileged: true
     restart_policy: unless-stopped
     groups:
       - python2
@@ -79,6 +82,7 @@ platforms:
     tmpfs:
       - /run
       - /tmp
+    privileged: true
     restart_policy: unless-stopped
     groups:
       - python2
