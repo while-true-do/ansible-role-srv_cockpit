@@ -93,7 +93,7 @@ wtd_srv_cockpit_ws_conf_UrlRoot: ""
 # See here: http://cockpit-project.org/guide/latest/cockpit-ws.8.html
 wtd_srv_cockpit_ws_conf_cert: ""
 
-wtd_srv_cockpit_ws_clients:
+wtd_srv_cockpit_ws_clients: ""
 # - name: "someName"
 #   color: "rgb(0, 0, 255)" # default random color
 #   port: "22" # default to 22
