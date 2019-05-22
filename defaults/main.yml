@@ -109,4 +109,3 @@ wtd_srv_cockpit_web_conf_clients: []
 # - name: "host1.example.com"
 #   color: "rgb(0, 0, 255)" # default random color
 #   port: "22" # default to 22
-wtd_srv_cockpit_web_
