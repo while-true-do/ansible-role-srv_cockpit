@@ -1,27 +1,27 @@
 # {{ ansible_managed | comment }}
 
 [WebService]
-{% if wtd_srv_cockpit_ws_conf_Origins %}
-Origins = {{ wtd_srv_cockpit_ws_conf_Origins }}
+{% if wtd_srv_cockpit_web_conf_Origins %}
+Origins = {{ wtd_srv_cockpit_web_conf_Origins }}
 {% endif %}
-{% if wtd_srv_cockpit_ws_conf_ProtocolHeader %}
-ProtocolHeader = {{ wtd_srv_cockpit_ws_conf_ProtocolHeader }}
+{% if wtd_srv_cockpit_web_conf_ProtocolHeader %}
+ProtocolHeader = {{ wtd_srv_cockpit_web_conf_ProtocolHeader }}
 {% endif %}
-{% if wtd_srv_cockpit_ws_conf_LoginTo %}
-LoginTo = {{ wtd_srv_cockpit_ws_conf_LoginTo }}
+{% if wtd_srv_cockpit_web_conf_LoginTo %}
+LoginTo = {{ wtd_srv_cockpit_web_conf_LoginTo }}
 {% endif %}
-{% if wtd_srv_cockpit_ws_conf_LoginTitle %}
-LoginTitle = {{ wtd_srv_cockpit_ws_conf_LoginTitle }}
+{% if wtd_srv_cockpit_web_conf_LoginTitle %}
+LoginTitle = {{ wtd_srv_cockpit_web_conf_LoginTitle }}
 {% endif %}
-{% if wtd_srv_cockpit_ws_conf_RequireHost %}
-RequireHost = {{ wtd_srv_cockpit_ws_conf_RequireHost }}
+{% if wtd_srv_cockpit_web_conf_RequireHost %}
+RequireHost = {{ wtd_srv_cockpit_web_conf_RequireHost }}
 {% endif %}
-{% if wtd_srv_cockpit_ws_conf_MaxStartups %}
-MaxStartups = {{ wtd_srv_cockpit_ws_conf_MaxStartups }}
+{% if wtd_srv_cockpit_web_conf_MaxStartups %}
+MaxStartups = {{ wtd_srv_cockpit_web_conf_MaxStartups }}
 {% endif %}
-{% if wtd_srv_cockpit_ws_conf_AllowUnencrypted %}
-AllowUnencrypted = {{ wtd_srv_cockpit_ws_conf_AllowUnencrypted }}
+{% if wtd_srv_cockpit_web_conf_AllowUnencrypted %}
+AllowUnencrypted = {{ wtd_srv_cockpit_web_conf_AllowUnencrypted }}
 {% endif %}
-{% if wtd_srv_cockpit_ws_conf_UrlRoot %}
-UrlRoot = {{ wtd_srv_cockpit_ws_conf_UrlRoot }}
+{% if wtd_srv_cockpit_web_conf_UrlRoot %}
+UrlRoot = {{ wtd_srv_cockpit_web_conf_UrlRoot }}
 {% endif %}

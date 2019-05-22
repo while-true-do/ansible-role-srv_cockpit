@@ -3,19 +3,47 @@
 
 - name: Include distribution Vars
   include_vars: "{{ ansible_distribution }}.yml"
+  tags:
+    - cockpit
+    - package
+    - system
 
 - name: Include cockpit_role Vars
   include_vars: "{{ wtd_srv_cockpit_role }}.yml"
   when: wtd_srv_cockpit_role != "unmanaged"
+  tags:
+    - cockpit
+    - package
+    - system
 
-- name: Manage Cockpit sys Packages
+- name: Manage Cockpit system Packages
   package:
     name: "{{ wtd_srv_cockpit_sys_package }}"
     state: "{{ wtd_srv_cockpit_sys_package_state }}"
   become: true
   tags:
     - cockpit
-    - monitoring
+    - package
+    - system
+
+- name: Manage Cockpitp packagekit Packages
+  package:
+    name: "{{ wtd_srv_cockpit_pk_package }}"
+    state: "{{ wtd_srv_cockpit_pk_package_state }}"
+  become: true
+  tags:
+    - cockpit
+    - package
+    - system
+
+- name: Manage Cockpit storage Packages
+  package:
+    name: "{{ wtd_srv_cockpit_storage_package }}"
+    state: "{{ wtd_srv_cockpit_storage_package_state }}"
+  become: true
+  tags:
+    - cockpit
+    - storage
     - package
     - system
 
@@ -24,10 +52,10 @@
     name: "{{ wtd_srv_cockpit_pcp_package }}"
     state: "{{ wtd_srv_cockpit_pcp_package_state }}"
   become: true
-  when: wtd_srv_cockpit_pcp_package_state != ""
+  when:
+    - wtd_srv_cockpit_pcp_package_state != ""
   tags:
     - cockpit
-    - monitoring
     - package
     - pcp
     - system
@@ -37,11 +65,11 @@
     name: "{{ wtd_srv_cockpit_docker_package }}"
     state: "{{ wtd_srv_cockpit_docker_package_state }}"
   become: true
-  when: wtd_srv_cockpit_docker_package_state != ""
+  when:
+    - wtd_srv_cockpit_docker_package_state != ""
   tags:
     - cockpit
     - container
-    - monitoring
     - package
     - system
 
@@ -50,10 +78,10 @@
     name: "{{ wtd_srv_cockpit_machine_package }}"
     state: "{{ wtd_srv_cockpit_machine_package_state }}"
   become: true
-  when: wtd_srv_cockpit_machine_package_state != ""
+  when:
+    - wtd_srv_cockpit_machine_package_state != ""
   tags:
     - cockpit
-    - monitoring
     - package
     - system
     - virtualization
@@ -63,7 +91,8 @@
     name: "{{ wtd_srv_cockpit_kdump_package }}"
     state: "{{ wtd_srv_cockpit_kdump_package_state }}"
   become: true
-  when: wtd_srv_cockpit_kdump_package_state != ""
+  when:
+    - wtd_srv_cockpit_kdump_package_state != ""
   tags:
     - cockpit
     - kdump
@@ -75,19 +104,21 @@
     name: "{{ wtd_srv_cockpit_selinux_package }}"
     state: "{{ wtd_srv_cockpit_selinux_package_state }}"
   become: true
-  when: wtd_srv_cockpit_selinux_package_state != ""
+  when:
+    - wtd_srv_cockpit_selinux_package_state != ""
   tags:
     - cockpit
-    - monitoring
     - package
     - security
     - selinux
     - system
 
 - name: Include Cockpit Web Tasks
-  include_tasks: cockpit-ws.yml
-  when: wtd_srv_cockpit_ws_package_state != ""
+  include_tasks: cockpit-web.yml
+  when:
+    - wtd_srv_cockpit_web_package_state != ""
   tags:
-    - cokpit
+    - cockpit
     - web
+    - package
     - system

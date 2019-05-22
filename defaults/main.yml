@@ -1,7 +1,7 @@
 ---
 # defaults file for while_true_do.srv_cockpit
 
-# Some roles are predefined for convenience.
+## Role Management
 # Role can be:
 # default-host  =>  sys, pcp, kdump, selinux
 # kvm-host      =>  default-host + machine management
@@ -12,18 +12,28 @@
 # unmanaged     =>  you have to define each state
 wtd_srv_cockpit_role: "default-host"
 
+## Package Management
 # Cockpit System Packages
 # Packages needed by most systems
 # You should consider to look at while_true_do.sys_tuned
 wtd_srv_cockpit_sys_package:
   - cockpit-system
-  - cockpit-bridge
-  - cockpit-packagekit
   - cockpit-sosreport
-  - cockpit-storaged
   - cockpit-networkmanager
 # State can be present|latest|absent
 wtd_srv_cockpit_sys_package_state: ""
+
+# Cockpit Packagekit Integration
+wtd_srv_cockpit_pk_package:
+  - cockpit-packagekit
+# State can be present|latest|absent
+wtd_srv_cockpit_pk_package_state: ""
+
+# Cockpit Storage Management
+wtd_srv_cockpit_storage_package:
+  - cockpit-storaged
+# State can be present|latest|absent
+wtd_srv_cockpit_storage_package_state: ""
 
 # Cockpit PCP Integration
 # You should consider to look at while_true_do.sys_pcp
@@ -62,39 +72,41 @@ wtd_srv_cockpit_selinux_package_state: ""
 
 # Cockpit Webserver
 # The webserver, if you need it. Most likely on control/admin hosts only
-wtd_srv_cockpit_ws_package:
+wtd_srv_cockpit_web_package:
   - cockpit-ws
   - cockpit-dashboard
 # State can be present|latest|absent
-wtd_srv_cockpit_ws_package_state: ""
+wtd_srv_cockpit_web_package_state: ""
 
-wtd_srv_cockpit_ws_service: "cockpit.socket"
+## Service Management
+wtd_srv_cockpit_web_service: "cockpit.socket"
 # State can be started|stopped
-wtd_srv_cockpit_ws_service_state: "started"
-wtd_srv_cockpit_ws_service_enabled: true
+wtd_srv_cockpit_web_service_state: "started"
+wtd_srv_cockpit_web_service_enabled: true
 
-# Firewalld Management
-wtd_srv_cockpit_ws_firewall_service: "cockpit"
+## Firewalld Management
+wtd_srv_cockpit_web_fw_mgmt: true
+wtd_srv_cockpit_web_fw_service: "cockpit"
 # State can be enabled|disabled
-wtd_srv_cockpit_ws_firewall_service_state: "enabled"
-# Define a zone, to be used
-wtd_srv_cockpit_ws_firewall_service_zone: "public"
+wtd_srv_cockpit_web_fw_state: "enabled"
+# Zone can be according to defined zones on your machine.
+wtd_srv_cockpit_web_fw_zone: "public"
 
+## Configuration Management
 # See here: http://cockpit-project.org/guide/latest/cockpit.conf.5.html
-wtd_srv_cockpit_ws_conf_Origins: ""
-wtd_srv_cockpit_ws_conf_ProtocolHeader: ""
-wtd_srv_cockpit_ws_conf_LoginTo: ""
-wtd_srv_cockpit_ws_conf_LoginTitle: ""
-wtd_srv_cockpit_ws_conf_RequireHost: ""
-wtd_srv_cockpit_ws_conf_MaxStartups: "3"
-wtd_srv_cockpit_ws_conf_AllowUnencrypted: ""
-wtd_srv_cockpit_ws_conf_UrlRoot: ""
-
+wtd_srv_cockpit_web_conf_Origins: ""
+wtd_srv_cockpit_web_conf_ProtocolHeader: ""
+wtd_srv_cockpit_web_conf_LoginTo: ""
+wtd_srv_cockpit_web_conf_LoginTitle: ""
+wtd_srv_cockpit_web_conf_RequireHost: ""
+wtd_srv_cockpit_web_conf_MaxStartups: "3"
+wtd_srv_cockpit_web_conf_AllowUnencrypted: ""
+wtd_srv_cockpit_web_conf_UrlRoot: ""
 # See here: http://cockpit-project.org/guide/latest/cockpit-ws.8.html
-wtd_srv_cockpit_ws_conf_cert: ""
+wtd_srv_cockpit_web_conf_cert: ""
 
-wtd_srv_cockpit_ws_clients: ""
-# - name: "someName"
+wtd_srv_cockpit_web_conf_clients: []
+# - name: "host1.example.com"
 #   color: "rgb(0, 0, 255)" # default random color
 #   port: "22" # default to 22
-#   address: "host1.example.com"
+wtd_srv_cockpit_web_

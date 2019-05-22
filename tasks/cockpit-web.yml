@@ -11,8 +11,8 @@
 
 - name: Manage Cockpit Web Packages
   package:
-    name: "{{ wtd_srv_cockpit_ws_package }}"
-    state: "{{ wtd_srv_cockpit_ws_package_state }}"
+    name: "{{ wtd_srv_cockpit_web_package }}"
+    state: "{{ wtd_srv_cockpit_web_package_state }}"
   become: true
   tags:
     - cockpit
@@ -22,11 +22,12 @@
 
 - name: Manage Cockpit Web Service
   service:
-    name: "{{ wtd_srv_cockpit_ws_service }}"
-    state: "{{ wtd_srv_cockpit_ws_service_state }}"
-    enabled: "{{ wtd_srv_cockpit_ws_service_enabled }}"
+    name: "{{ wtd_srv_cockpit_web_service }}"
+    state: "{{ wtd_srv_cockpit_web_service_state }}"
+    enabled: "{{ wtd_srv_cockpit_web_service_enabled }}"
   become: true
-  when: wtd_srv_cockpit_ws_package_state != "absent"
+  when:
+    - wtd_srv_cockpit_web_package_state != "absent"
   tags:
     - cockpit
     - service
@@ -41,7 +42,8 @@
     group: "root"
     mode: 0644
   become: true
-  when: wtd_srv_cockpit_ws_package_state != "absent"
+  when:
+    - wtd_srv_cockpit_web_package_state != "absent"
   notify:
     - Restart Cockpit Web
   tags:
@@ -60,8 +62,7 @@
     lstrip_blocks: true
   become: true
   when:
-    - wtd_srv_cockpit_ws_package_state != "absent"
-    - wtd_srv_cockpit_ws_clients != ""
+    - wtd_srv_cockpit_web_package_state != "absent"
   notify:
     - Restart Cockpit Web
   tags:
@@ -70,16 +71,18 @@
     - system
     - web
 
-- name: Manage cockpit Firewalld Service
+- name: Manage Cockpit Web Firewalld Service
   firewalld:
-    service: "{{ wtd_srv_cockpit_ws_firewall_service }}"
-    state: "{{ wtd_srv_cockpit_ws_firewall_service_state }}"
+    service: "{{ wtd_srv_cockpit_web_fw_service }}"
+    state: "{{ wtd_srv_cockpit_web_fw_service_state }}"
     immediate: true
     permanent: true
-    zone: "{{ wtd_srv_cockpit_ws_firewall_service_zone }}"
+    zone: "{{ wtd_srv_cockpit_web_fw_service_zone }}"
   become: true
   when:
     - '"firewalld" in packages'
+    - wtd_srv_cockpit_web_mgmt
+    - wtd_srv_cockpit_web_package_state != "absent"
   tags:
     - cockpit
     - configuration

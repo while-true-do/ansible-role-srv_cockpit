@@ -8,7 +8,7 @@
         {% if host.port is defined %}
         "port" : "{{ host.port }}",
         {% endif %}
-        "address" : "{{ host.address }}"
+        "address" : "{{ host.name }}"
     {% if loop.last %}
     {{ '}' }}
     {% else %}

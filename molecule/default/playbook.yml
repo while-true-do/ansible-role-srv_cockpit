@@ -4,7 +4,7 @@
   roles:
     - role: while_true_do.srv_cockpit
       wtd_srv_cockpit_role: "all"
-      wtd_srv_cockpit_ws_clients:
+      wtd_srv_cockpit_web_conf_clients:
         - name: "host1"
           address: "host1.example.com"
         - name: "host2"
