@@ -3,7 +3,7 @@
 
 - name: Restart Cockpit Web
   service:
-    name: "{{ wtd_srv_cockpit_ws_service }}"
+    name: "{{ wtd_srv_cockpit_web_service }}"
     state: "restarted"
   become: true
   tags:

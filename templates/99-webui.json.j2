@@ -1,5 +1,5 @@
 {{ '{' }}
-{% for host in wtd_srv_cockpit_ws_clients %}
+{% for host in wtd_srv_cockpit_web_clients %}
     "{{ host.name }}" : {{ '{' }}
         "visible" : "true",
         {% if host.color is defined %}
