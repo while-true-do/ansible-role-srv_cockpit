@@ -34,9 +34,6 @@ def test_cockpit_web_conf(host):
     assert file.exists
     assert file.user == 'root'
     assert file.group == 'root'
-    assert file.contains('192.168.0.10')
-    assert file.contains('host2')
-    assert file.contains('host3.example.com')
 
 
 def test_cockpit_web_socket(host):
