@@ -34,6 +34,8 @@ platforms:
     tmpfs:
       - /run
       - /tmp
+    capabilities:
+      - SYS_ADMIN
     # privileged: true
     groups:
       - ${pygroup:-python}
