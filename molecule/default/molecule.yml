@@ -36,7 +36,7 @@ platforms:
       - /tmp
     capabilities:
       - SYS_ADMIN
-    # privileged: true
+    privileged: true
     groups:
       - ${pygroup:-python}
     environment:
