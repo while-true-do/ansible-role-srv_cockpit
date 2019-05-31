@@ -81,7 +81,7 @@
   become: true
   when:
     - '"firewalld" in packages'
-    - wtd_srv_cockpit_web_mgmt
+    - wtd_srv_cockpit_web_fw_mgmt
     - wtd_srv_cockpit_web_package_state != "absent"
   tags:
     - cockpit
