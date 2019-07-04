@@ -88,9 +88,9 @@ wtd_srv_cockpit_web_service_enabled: true
 wtd_srv_cockpit_web_fw_mgmt: true
 wtd_srv_cockpit_web_fw_service: "cockpit"
 # State can be enabled|disabled
-wtd_srv_cockpit_web_fw_state: "enabled"
+wtd_srv_cockpit_web_fw_service_state: "enabled"
 # Zone can be according to defined zones on your machine.
-wtd_srv_cockpit_web_fw_zone: "public"
+wtd_srv_cockpit_web_fw_service_zone: "public"
 
 ## Configuration Management
 # See here: http://cockpit-project.org/guide/latest/cockpit.conf.5.html
