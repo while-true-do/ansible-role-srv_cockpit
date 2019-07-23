@@ -26,7 +26,7 @@
     - package
     - system
 
-- name: Manage Cockpitp packagekit Packages
+- name: Manage Cockpit packagekit Packages
   package:
     name: "{{ wtd_srv_cockpit_pk_package }}"
     state: "{{ wtd_srv_cockpit_pk_package_state }}"
@@ -113,7 +113,7 @@
     - selinux
     - system
 
-- name: Include Cockpit Web Tasks
+- name: Include Cockpit web Tasks
   include_tasks: cockpit-web.yml
   when:
     - wtd_srv_cockpit_web_package_state != ""
