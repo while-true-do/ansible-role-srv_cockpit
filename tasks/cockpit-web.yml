@@ -63,6 +63,7 @@
   become: true
   when:
     - wtd_srv_cockpit_web_package_state != "absent"
+    - wtd_srv_cockpit_web_conf_clients == ""
   notify:
     - Restart Cockpit Web
   tags:
