@@ -105,7 +105,7 @@ wtd_srv_cockpit_web_conf_UrlRoot: ""
 # See here: http://cockpit-project.org/guide/latest/cockpit-ws.8.html
 wtd_srv_cockpit_web_conf_cert: ""
 
-wtd_srv_cockpit_web_conf_clients: []
-# - name: "host1.example.com" # ip|fqdn
-#   color: "rgb(0, 0, 255)" # default random color
-#   port: "22" # default to 22
+# wtd_srv_cockpit_web_conf_clients:
+#   - name: "host1.example.com"   # ip|fqdn
+#     color: "rgb(0, 0, 255)"     # defaults to random color
+#     port: "22"                  # defaults to 22
