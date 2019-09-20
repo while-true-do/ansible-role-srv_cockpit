@@ -3,7 +3,12 @@
   hosts: all
   roles:
     - role: while_true_do.srv_cockpit
-      wtd_srv_cockpit_role: "all"
+      wtd_srv_cockpit_web_fw_mgmt: false
+      wtd_srv_cockpit_pcp_package_state: "present"
+      wtd_srv_cockpit_docker_package_state: "present"
+      wtd_srv_cockpit_machines_package_state: "present"
+      wtd_srv_cockpit_web_package_state: "present"
+      wtd_srv_cockpit_web_dash_package_state: "present"
       wtd_srv_cockpit_web_conf_clients:
         - name: "192.168.0.10"
         - name: "host2"

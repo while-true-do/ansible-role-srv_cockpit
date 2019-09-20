@@ -1,0 +1,22 @@
+---
+# tasks file for while_true_do.srv_cockpit
+
+- name: "Enable Red Hat Extras Repository"
+  rhsm_repository:
+    name: "rhel-7-server-extras-rpms"
+  become: true
+  tags:
+    - cockpit
+    - package
+    - repository
+    - system
+
+- name: "Enable Red Hat Optional Repository"
+  rhsm_repository:
+    name: "rhel-7-server-optional-rpms"
+  become: true
+  tags:
+    - cockpit
+    - package
+    - repository
+    - system

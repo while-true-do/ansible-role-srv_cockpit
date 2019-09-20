@@ -2,15 +2,16 @@
 # tasks file for while_true_do.srv_cockpit
 
 - name: Include distribution Vars
-  include_vars: "{{ ansible_distribution }}.yml"
+  include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
   tags:
     - cockpit
     - package
     - system
 
-- name: Include cockpit_role Vars
-  include_vars: "{{ wtd_srv_cockpit_role }}.yml"
-  when: wtd_srv_cockpit_role != "unmanaged"
+- name: Include distribution Tasks
+  include_tasks: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+  when:
+    - ansible_distribution == "RedHat"
   tags:
     - cockpit
     - package
@@ -21,6 +22,8 @@
     name: "{{ wtd_srv_cockpit_sys_package }}"
     state: "{{ wtd_srv_cockpit_sys_package_state }}"
   become: true
+  when:
+    - wtd_srv_cockpit_sys_package_state != "unmanaged"
   tags:
     - cockpit
     - package
@@ -31,19 +34,10 @@
     name: "{{ wtd_srv_cockpit_pk_package }}"
     state: "{{ wtd_srv_cockpit_pk_package_state }}"
   become: true
+  when:
+    - wtd_srv_cockpit_pk_package_state != "unmanaged"
   tags:
     - cockpit
-    - package
-    - system
-
-- name: Manage Cockpit storage Packages
-  package:
-    name: "{{ wtd_srv_cockpit_storage_package }}"
-    state: "{{ wtd_srv_cockpit_storage_package_state }}"
-  become: true
-  tags:
-    - cockpit
-    - storage
     - package
     - system
 
@@ -53,7 +47,7 @@
     state: "{{ wtd_srv_cockpit_pcp_package_state }}"
   become: true
   when:
-    - wtd_srv_cockpit_pcp_package_state != ""
+    - wtd_srv_cockpit_pcp_package_state != "unmanaged"
   tags:
     - cockpit
     - package
@@ -66,57 +60,43 @@
     state: "{{ wtd_srv_cockpit_docker_package_state }}"
   become: true
   when:
-    - wtd_srv_cockpit_docker_package_state != ""
+    - wtd_srv_cockpit_docker_package_state != "unmanaged"
   tags:
     - cockpit
     - container
     - package
     - system
 
-- name: Manage Cockpit machine Packages
+- name: Manage Cockpit podman Packages
   package:
-    name: "{{ wtd_srv_cockpit_machine_package }}"
-    state: "{{ wtd_srv_cockpit_machine_package_state }}"
+    name: "{{ wtd_srv_cockpit_podman_package }}"
+    state: "{{ wtd_srv_cockpit_podman_package_state }}"
   become: true
   when:
-    - wtd_srv_cockpit_machine_package_state != ""
+    - wtd_srv_cockpit_podman_package_state != "unmanaged"
+  tags:
+    - cockpit
+    - container
+    - package
+    - system
+
+- name: Manage Cockpit machines Packages
+  package:
+    name: "{{ wtd_srv_cockpit_machines_package }}"
+    state: "{{ wtd_srv_cockpit_machines_package_state }}"
+  become: true
+  when:
+    - wtd_srv_cockpit_machines_package_state != "unmanaged"
   tags:
     - cockpit
     - package
     - system
     - virtualization
 
-- name: Manage Cockpit kdump Packages
-  package:
-    name: "{{ wtd_srv_cockpit_kdump_package }}"
-    state: "{{ wtd_srv_cockpit_kdump_package_state }}"
-  become: true
-  when:
-    - wtd_srv_cockpit_kdump_package_state != ""
-  tags:
-    - cockpit
-    - kdump
-    - package
-    - system
-
-- name: Manage Cockpit selinux Packages
-  package:
-    name: "{{ wtd_srv_cockpit_selinux_package }}"
-    state: "{{ wtd_srv_cockpit_selinux_package_state }}"
-  become: true
-  when:
-    - wtd_srv_cockpit_selinux_package_state != ""
-  tags:
-    - cockpit
-    - package
-    - security
-    - selinux
-    - system
-
 - name: Include Cockpit web Tasks
   include_tasks: cockpit-web.yml
   when:
-    - wtd_srv_cockpit_web_package_state != ""
+    - wtd_srv_cockpit_web_package_state != "unmanaged"
   tags:
     - cockpit
     - web

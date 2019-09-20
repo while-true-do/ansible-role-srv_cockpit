@@ -1,7 +1,0 @@
----
-# vars file for while_true_do.srv_cockpit
-
-wtd_srv_cockpit_sys_package:
-  - cockpit-system
-  - cockpit-sosreport
-  - cockpit-networkmanager

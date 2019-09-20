@@ -1,0 +1,9 @@
+---
+# vars file for while_true_do.srv_cockpit
+
+# Overwrite packages not existing in CentOS
+wtd_srv_cockpit_sys_package:
+  - cockpit-system
+  - cockpit-storaged
+
+wtd_srv_cockpit_podman_package_state: "unmanaged"

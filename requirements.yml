@@ -5,10 +5,10 @@
 # contact: hello@while-true-do.io
 # license: BSD-3-Clause
 
-- src: while_true_do.rpo_epel
 - src: while_true_do.srv_docker
 - src: while_true_do.srv_kvm
 - src: while_true_do.srv_pcp
+- src: while_true_do.srv_podman
 - src: while_true_do.sys_kdump
 - src: while_true_do.sys_selinux
 - src: while_true_do.sys_tuned

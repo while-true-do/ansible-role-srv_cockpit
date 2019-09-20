@@ -37,8 +37,12 @@ This role installs and configures several features and modules of cockpit.
 
 -   cockpit system
 -   cockpit web
--   integration with tools like kvm or selinux
--   integration of performance co-pilot
+-   integration for docker
+-   integration for libvirt
+-   integration for performance co-pilot
+-   integration for podman
+-   configure the dashboard
+-   configure firewalld
 
 ## Requirements
 
@@ -47,10 +51,10 @@ lots of services, you should review some of these tools and optional roles.
 
 Optional Roles:
 
--   [while_true_do.rpo_epel](https://github.com/while-true-do/ansible-role-rpo_epel)
 -   [while_true_do.srv_docker](https://github.com/while-true-do/ansible-role-srv_docker)
 -   [while_true_do.srv_kvm](https://github.com/while-true-do/ansible-role-srv_kvm)
 -   [while_true_do.srv_pcp](https://github.com/while-true-do/ansible-role-srv_pcp)
+-   [while_true_do.srv_podman](https://github.com/while-true-do/ansible-role-srv_podman)
 -   [while_true_do.sys_kdump](https://github.com/while-true-do/ansible-role-sys_kdump)
 -   [while_true_do.sys_selinux](https://github.com/while-true-do/ansible-role-sys_selinux)
 -   [while_true_do.sys_tuned](https://github.com/while-true-do/ansible-role-sys_tuned)
@@ -61,7 +65,7 @@ Used Modules:
 -   [Ansible Service Module](https://docs.ansible.com/ansible/latest/modules/service_module.html)
 -   [Ansible Template Module](https://docs.ansible.com/ansible/latest/modules/template_module.html)
 -   [Ansible Firewalld Module](https://docs.ansible.com/ansible/latest/modules/firewalld_module.html)
--   [Ansible Package_Facts Module](https://docs.ansible.com/ansible/latest/modules/package_facts_module.html)
+-   [Ansible RHSM Repository Module](https://docs.ansible.com/ansible/latest/modules/rhsm_repository_module.html)
 
 ## Installation
 
@@ -77,6 +81,8 @@ git clone https://github.com/while-true-do/ansible-role-srv_cockpit.git while_tr
 
 Dependencies:
 
+If you want to install all optional roles, run the below command.
+
 ```
 ansible-galaxy install -r requirements.yml
 ```
@@ -89,90 +95,82 @@ ansible-galaxy install -r requirements.yml
 ---
 # defaults file for while_true_do.srv_cockpit
 
-## Role Management
-# Role can be:
-# default-host  =>  sys, pcp, kdump, selinux
-# kvm-host      =>  default-host + machine management
-# docker-host   =>  default-host + docker management
-# control-host  =>  default-host + webserver
-# all           =>  all packages present
-# none          =>  all packages absent
-# unmanaged     =>  you have to define each state
-wtd_srv_cockpit_role: "default-host"
-
 ## Package Management
+# Defaults are based on Fedora Linux
+
 # Cockpit System Packages
-# Packages needed by most systems
-# You should consider to look at while_true_do.sys_tuned
+# Most likely needed for all systems
+# You should consider to have a look at:
+# - while_true_do.sys_kdump
+# - while_true_do.sys_selinux
+# - while_true_do.sys_tuned
 wtd_srv_cockpit_sys_package:
-  - cockpit-system
-  - cockpit-sosreport
   - cockpit-networkmanager
-# State can be present|latest|absent
-wtd_srv_cockpit_sys_package_state: ""
+  - cockpit-storaged
+  - cockpit-sosreport
+  - cockpit-system
+  - cockpit-kdump
+  - cockpit-selinux
+# State can be present|latest|absent|unmanaged
+wtd_srv_cockpit_sys_package_state: "present"
 
 # Cockpit Packagekit Integration
 wtd_srv_cockpit_pk_package:
   - cockpit-packagekit
-# State can be present|latest|absent
-wtd_srv_cockpit_pk_package_state: ""
-
-# Cockpit Storage Management
-wtd_srv_cockpit_storage_package:
-  - cockpit-storaged
-# State can be present|latest|absent
-wtd_srv_cockpit_storage_package_state: ""
+# State can be present|latest|absent|unmanaged
+wtd_srv_cockpit_pk_package_state: "present"
 
 # Cockpit PCP Integration
 # You should consider to look at while_true_do.sys_pcp
 wtd_srv_cockpit_pcp_package:
   - cockpit-pcp
-# State can be present|latest|absent
-wtd_srv_cockpit_pcp_package_state: ""
+# State can be present|latest|absent|unmanaged
+wtd_srv_cockpit_pcp_package_state: "present"
 
 # Cockpit Docker Integration
 # You should consider to look at while_true_do.srv_docker
 wtd_srv_cockpit_docker_package:
   - cockpit-docker
-# State can be present|latest|absent
-wtd_srv_cockpit_docker_package_state: ""
+# State can be present|latest|absent|unmanaged
+wtd_srv_cockpit_docker_package_state: "absent"
 
-# Cockpit KVM Integration
+# Cockpit Podman Integration
+# You should consider to look at while_true_do.srv_podman
+wtd_srv_cockpit_podman_package:
+  - cockpit-podman
+# State can be present|latest|absent|unmanaged
+wtd_srv_cockpit_podman_package_state: "absent"
+
+# Cockpit libvirt Integration
 # You should consider to look at while_true_do.srv_kvm
-wtd_srv_cockpit_machine_package:
+wtd_srv_cockpit_machines_package:
   - cockpit-machines
-# State can be present|latest|absent
-wtd_srv_cockpit_machine_package_state: ""
+# State can be present|latest|absent|unmanaged
+wtd_srv_cockpit_machines_package_state: "absent"
 
-# Cockpit Kdump Integration
-# You should consider to look at while_true_do.sys_kdump
-wtd_srv_cockpit_kdump_package:
-  - cockpit-kdump
-# State can be present|latest|absent
-wtd_srv_cockpit_kdump_package_state: ""
+## Cockpit Web Management
+# Only needed, if you want to access the server directly via web ui
 
-# Cockpit selinux Integration
-# You should consider to look at while_true_do.sys_selinux
-wtd_srv_cockpit_selinux_package:
-  - cockpit-selinux
-# State can be present|latest|absent
-wtd_srv_cockpit_selinux_package_state: ""
-
-# Cockpit Webserver
-# The webserver, if you need it. Most likely on control/admin hosts only
+# Cockpit Web Package Management
 wtd_srv_cockpit_web_package:
+  - cockpit
   - cockpit-ws
-  - cockpit-dashboard
-# State can be present|latest|absent
-wtd_srv_cockpit_web_package_state: ""
+# State can be present|latest|absent|unmanaged
+wtd_srv_cockpit_web_package_state: "absent"
 
-## Service Management
+# Cockpit Web Dashboard for multiple servers
+wtd_srv_cockpit_web_dash_package:
+  - cockpit-dashboard
+# State can be present|latest|absent|unmanaged
+wtd_srv_cockpit_web_dash_package_state: "absent"
+
+## Cockpit Web Service Management
 wtd_srv_cockpit_web_service: "cockpit.socket"
 # State can be started|stopped
 wtd_srv_cockpit_web_service_state: "started"
 wtd_srv_cockpit_web_service_enabled: true
 
-## Firewalld Management
+## Cockpit Web Firewalld Management
 wtd_srv_cockpit_web_fw_mgmt: true
 wtd_srv_cockpit_web_fw_service: "cockpit"
 # State can be enabled|disabled
@@ -180,7 +178,7 @@ wtd_srv_cockpit_web_fw_service_state: "enabled"
 # Zone can be according to defined zones on your machine.
 wtd_srv_cockpit_web_fw_service_zone: "public"
 
-## Configuration Management
+## Cockpit Web Configuration Management
 # See here: http://cockpit-project.org/guide/latest/cockpit.conf.5.html
 wtd_srv_cockpit_web_conf_Origins: ""
 wtd_srv_cockpit_web_conf_ProtocolHeader: ""
@@ -193,10 +191,10 @@ wtd_srv_cockpit_web_conf_UrlRoot: ""
 # See here: http://cockpit-project.org/guide/latest/cockpit-ws.8.html
 wtd_srv_cockpit_web_conf_cert: ""
 
-wtd_srv_cockpit_web_conf_clients: []
-# - name: "host1.example.com" # ip|fqdn
-#   color: "rgb(0, 0, 255)" # default random color
-#   port: "22" # default to 22
+# wtd_srv_cockpit_web_conf_clients:
+#   - name: "host1.example.com"   # ip|fqdn
+#     color: "rgb(0, 0, 255)"     # defaults to random color
+#     port: "22"                  # defaults to 22
 ```
 
 ### Example Playbook
@@ -215,23 +213,25 @@ can be done in a
     - role: while_true_do.srv_cockpit
 ```
 
-#### Control Host
+#### Host with web interface and dashboard
 
 ```
 - hosts: all
   roles:
     - role: while_true_do.srv_cockpit
-      wtd_srv_cockpit_role: "control-host"
+      wtd_srv_cockpit_web_package_state: "present"
+      wtd_srv_cockpit_web_dash_package_state: "present"
 ```
 
-#### Control Host with multiple Clients
+#### Add multiple Clients to the Dashboard
 
 ```
 - hosts: all
   roles:
     - role: while_true_do.srv_cockpit
-      wtd_srv_cockpit_role: "control-host"
-      wtd_srv_cockpit_ws_clients:
+      wtd_srv_cockpit_web_package_state: "present"
+      wtd_srv_cockpit_web_dash_package_state: "present"
+      wtd_srv_cockpit_web_conf_clients:
         - name: "host1"
           address: "host1.example.com"
         - name: "host2"

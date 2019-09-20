@@ -1,14 +1,6 @@
 ---
 # tasks file for while_true_do.srv_cockpit
 
-- name: Gather package facts
-  package_facts:
-    manager: auto
-  tags:
-    - cockpit
-    - facts
-    - package
-
 - name: Manage Cockpit Web Packages
   package:
     name: "{{ wtd_srv_cockpit_web_package }}"
@@ -17,20 +9,6 @@
   tags:
     - cockpit
     - package
-    - system
-    - web
-
-- name: Manage Cockpit Web Service
-  service:
-    name: "{{ wtd_srv_cockpit_web_service }}"
-    state: "{{ wtd_srv_cockpit_web_service_state }}"
-    enabled: "{{ wtd_srv_cockpit_web_service_enabled }}"
-  become: true
-  when:
-    - wtd_srv_cockpit_web_package_state != "absent"
-  tags:
-    - cockpit
-    - service
     - system
     - web
 
@@ -52,7 +30,20 @@
     - system
     - web
 
-- name: Configure Cockpit Web Clients
+- name: Manage Cockpit Web Dashboard Packages
+  package:
+    name: "{{ wtd_srv_cockpit_web_dash_package }}"
+    state: "{{ wtd_srv_cockpit_web_dash_package_state }}"
+  become: true
+  when:
+    - wtd_srv_cockpit_web_dash_package_state != "unmanaged"
+  tags:
+    - cockpit
+    - package
+    - system
+    - web
+
+- name: Configure Cockpit Web Dashboard Clients
   template:
     src: "99-webui.json.j2"
     dest: "/etc/cockpit/machines.d/99-webui.json"
@@ -62,7 +53,7 @@
     lstrip_blocks: true
   become: true
   when:
-    - wtd_srv_cockpit_web_package_state != "absent"
+    - wtd_srv_cockpit_web_dash_package_state != "unmanaged"
     - wtd_srv_cockpit_web_conf_clients is defined
   notify:
     - Restart Cockpit Web
@@ -72,16 +63,29 @@
     - system
     - web
 
+- name: Manage Cockpit Web Service
+  service:
+    name: "{{ wtd_srv_cockpit_web_service }}"
+    state: "{{ wtd_srv_cockpit_web_service_state }}"
+    enabled: "{{ wtd_srv_cockpit_web_service_enabled }}"
+  become: true
+  when:
+    - wtd_srv_cockpit_web_package_state != "absent"
+  tags:
+    - cockpit
+    - service
+    - system
+    - web
+
 - name: Manage Cockpit Web Firewalld Service
   firewalld:
     service: "{{ wtd_srv_cockpit_web_fw_service }}"
     state: "{{ wtd_srv_cockpit_web_fw_service_state }}"
+    zone: "{{ wtd_srv_cockpit_web_fw_service_zone }}"
     immediate: true
     permanent: true
-    zone: "{{ wtd_srv_cockpit_web_fw_service_zone }}"
   become: true
   when:
-    - '"firewalld" in packages'
     - wtd_srv_cockpit_web_fw_mgmt
   tags:
     - cockpit
